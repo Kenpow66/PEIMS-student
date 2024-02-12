@@ -8,7 +8,7 @@ output: html_document
 ```{r}
 ###Load student basic information file
 
-PEIMS_student <- read.csv("R:/Specialists Transfer/Ken/GitHub/PEIMS-student/Student-Student Basic Information.csv")
+PEIMS_student <- read.csv("R:/RA_Internal/Archives/Specialist Data/PEIMS/2022-2023/PEIMS Fall 2022-2023/Student Data/Fall PEIMS Resubmission Data Files from TSDS/Student-Student Basic Information.csv")
 
 
 ### Remove values from as_of_status_cd
@@ -17,9 +17,14 @@ PEIMS_student <- read.csv("R:/Specialists Transfer/Ken/GitHub/PEIMS-student/Stud
   ### E
   ### G
 
-PEIMS_student$AS_OF_STATUS_CD <- str_remove_all(PEIMS_student$AS_OF_STATUS_CD,"A" & "C" & "E" & "G") 
+### -------TWO WAYS TO REMOVE THE ROWS WHICH CONTAIN THE VALUES ABOVE-------
+
+  ### NUMBER ONE
+
+### PEIMS_student <- subset(PEIMS_student, !(AS_OF_STATUS_CD %in% c("A","C","E","G")))
+
+  ### NUMBER TWO
   
-
-
+PEIMS_student <- PEIMS_student[!(PEIMS_student$AS_OF_STATUS_CD %in% c("A","C","E","G")),] 
 
 ```
