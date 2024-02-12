@@ -17,6 +17,9 @@ PEIMS_student <- read.csv("R:/Specialists Transfer/Ken/GitHub/PEIMS-student/Stud
   ### E
   ### G
 
+PEIMS_student$AS_OF_STATUS_CD <- str_remove_all(PEIMS_student$AS_OF_STATUS_CD,"A" & "C" & "E" & "G") 
+  
+
 
 
 ```
