@@ -8,7 +8,7 @@ output: html_document
 ```{r}
 ###Load student basic information file
 
-PEIMS_student <- read.csv("R:/RA_Internal/Archives/Specialist Data/PEIMS/2022-2023/PEIMS Fall 2022-2023/Student Data/Fall PEIMS Resubmission Data Files from TSDS/Student-Student Basic Information.csv")
+Student_Basic <- read.csv("R:/RA_Internal/Archives/Specialist Data/PEIMS/2022-2023/PEIMS Fall 2022-2023/Student Data/Fall PEIMS Resubmission Data Files from TSDS/Student-Student Basic Information.csv")
 
 
 ### Remove values from as_of_status_cd
@@ -21,10 +21,30 @@ PEIMS_student <- read.csv("R:/RA_Internal/Archives/Specialist Data/PEIMS/2022-20
 
   ### NUMBER ONE
 
-### PEIMS_student <- subset(PEIMS_student, !(AS_OF_STATUS_CD %in% c("A","C","E","G")))
+Student_Basic1 <- subset(Student_Basic, !(AS_OF_STATUS_CD %in% c("A","C","E","G")))
 
   ### NUMBER TWO
   
-PEIMS_student <- PEIMS_student[!(PEIMS_student$AS_OF_STATUS_CD %in% c("A","C","E","G")),] 
+### Student_Basic2 <- Student_Basic[!(Student_Basic$AS_OF_STATUS_CD %in% c("A","C","E","G")),] 
+
+```
+
+```{r}
+
+Student_enrollment <- read.csv("R:/RA_Internal/Archives/Specialist Data/PEIMS/2022-2023/PEIMS Fall 2022-2023/Student Data/Fall PEIMS Resubmission Data Files from TSDS/Student-Enrollment (School Association).csv")
+
+### keep only those columns needed
+
+### selecting columns by index position
+###Student_enrollment <- Student_enrollment %>% select(5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)
+
+### selecting columns by column name
+Student_enrollment <- Student_enrollment %>% 
+  select("CAMP_ID","STU_UNQ_ID","CAMP_ID_ENROLL","CAMP_ID_RESID","CAMP_ID_ACCNT","GRD_LVL_CD",        
+        "LAST_ENROLL_DT","STU_ATTRB_CD","PK_PGM_TYPE_CD","PK_PRIM_FNDG_SRC_CD","PK_SEC_FNDG_SRC_CD" 
+)
+### Left-join 
+
+Student_PEIMS <- left_join(Student_Basic1,Student_enrollment, by = "STU_UNQ_ID")
 
 ```
