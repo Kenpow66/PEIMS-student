@@ -1,0 +1,22 @@
+---
+title: "PEIMS-student"
+author: "Ken Powers"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r}
+###Load student basic information file
+
+PEIMS_student <- read.csv("R:/Specialists Transfer/Ken/GitHub/PEIMS-student/Student-Student Basic Information.csv")
+
+
+### Remove values from as_of_status_cd
+  ### A
+  ### C
+  ### E
+  ### G
+
+
+
+```
