@@ -77,3 +77,43 @@ Student_PEIMS_3 <- left_join(Student_PEIMS_2,Student_SPED1, by = "STU_UNQ_ID")
 ```
 
 
+
+```{r Student Title I Part A}
+
+Student_Title_1 <- read.csv("R:/RA_Internal/Archives/Specialist Data/PEIMS/2022-2023/PEIMS Fall 2022-2023/Student Data/Fall PEIMS Resubmission Data Files from TSDS/Student-Title I Part A Program.csv")
+
+Student_Title_1A <- Student_Title_1 %>% 
+    select("STU_UNQ_ID","T1PA_RDNG_FLAG","T1PA_MATH_FLAG","T1PA_SCI_FLAG","T1PA_SSTD_FLAG","T1PA_SVCS_GDNC_CNSL_FLAG","T1PA_SVCS_SOC_WORK_FLAG",
+           "T1PA_SVCS_HLTH_FLAG","T1PA_CD"
+)
+
+Student_PEIMS_4 <- left_join(Student_PEIMS_3,Student_Title_1A, by = "STU_UNQ_ID")
+
+```
+
+
+```{r Create Four new columns for Student_PEIMS}
+
+### Rename column "CAMPU_ID" TO "CAMP_ID_LOCAL"
+
+colnames(Student_PEIMS_4)[which(names(Student_PEIMS_4) == "CAMP_ID")] <- "CAMP_ID_LOCAL"
+
+### Combine all race/ethnic columns into one column
+
+# Create AGG_ETHNICITY
+  Student_PEIMS_4 <- Student_PEIMS_4 %>% 
+    mutate(AGG_ETHNICITY = case_when(
+      STU_ETHNIC_FLAG == 1 ~ "H", # If this flag is one, automatically Hispanic regardless of multiple races
+      rowSums(select(., 20:24) == 1) >= 2 ~ "T", # Check if more than 1 race 
+      RACE_AMER_IND_ALASK_FLAG == 1 ~ "I",
+      RACE_ASIAN_FLAG == 1 ~ "A",
+      RACE_BLACK_AFR_AMER_FLAG == 1 ~ "B",
+      RACE_HAW_PAC_ISL_FLAG == 1 ~ "P",
+      RACE_WHITE_FLAG == 1 ~ "W",
+      TRUE ~ "NONE")) # Look for any missed
+  
+  view(Student_PEIMS_4$AGG_ETHNICITY)
+
+```
+
+
